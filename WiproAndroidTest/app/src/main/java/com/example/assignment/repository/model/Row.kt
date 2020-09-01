@@ -1,0 +1,7 @@
+package com.example.assignment.repository.model
+
+data class Row(
+    val description: String,
+    val imageHref: String,
+    val title: String
+)

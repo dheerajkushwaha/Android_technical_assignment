@@ -1,0 +1,120 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "com.example.wiproandroidtest"
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        dataBinding true
+    }
+    dataBinding {
+        enabled = true
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    def nav_version = "2.3.0"
+    def gradle_version = '3.0.1'
+
+    kapt "com.android.databinding:compiler:3.1.3"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Retrofit
+    def  retrofit_version = '2.6.1'
+    def retrofit_gson_version = '2.6.1'
+    def retrofit_rxjava_adapter_version = '1.0.0'
+    def okhttp_version = '3.12.0'
+    def okhttp_urlconnection_version = '3.0.1'
+    def okhttp3_logging_interceptor_version = '3.4.1'
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_version"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit_rxjava_adapter_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_urlconnection_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_logging_interceptor_version"
+
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+
+    //Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
+    //.................
+    // implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.6.0'
+
+
+
+    kapt 'com.android.databinding:compiler:3.1.0'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // dagger.android package (optional)
+    ext.dagger2_version = '2.24'
+    implementation "com.google.dagger:dagger-android:$dagger2_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
+
+    //kapt 'com.google.dagger:dagger-android-processor:2.15'
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
+
+    //junit test case
+    testImplementation "org.powermock:powermock-module-junit4:1.6.4"
+    implementation 'org.powermock:powermock-api-mockito2:2.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    debugImplementation "androidx.fragment:fragment-testing:1.1.0-beta01"
+    debugImplementation "androidx.fragment:fragment-ktx:1.1.0-beta01"
+
+    //Roboelectric
+    testImplementation "org.robolectric:robolectric:$rootProject.roboelectricVersion"
+    testImplementation "androidx.test:core:$rootProject.androidxtestCoreVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.lifeCycleVersion"
+    testImplementation "androidx.test.ext:truth:$rootProject.androidxtestVersion"
+    testImplementation "androidx.test.ext:junit:$rootProject.androidxtestVersion"
+    testImplementation "androidx.work:work-testing:$rootProject.testWorkManagerVersion"
+    testImplementation "androidx.test:rules:$rootProject.testRulesVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifeCycleVersion"
+}

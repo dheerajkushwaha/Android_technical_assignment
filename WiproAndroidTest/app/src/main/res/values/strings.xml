@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WiproAndroidTest</string>
+    <string name="app_title"></string>
+    <string name="no_network_text">There is no internet connectivity please check and try again</string>
+    <string name="api_issue_text">There is some api issse </string>
+    <string name="api_empty_text">There is no record </string>
+</resources>

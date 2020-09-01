@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="dashboardViewModelMain"
+            type="com.example.assignment.ui.feeds.FeedViewModel"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:refreshing="@{dashboardViewModelMain.isLoading}"
+            app:onRefreshListener="@{() -> dashboardViewModelMain.onRefresh()}"
+            tools:ignore="MissingConstraints">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_news"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                app:setAdapter="@{dashboardViewModelMain.getDashboardAdapter()}">
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <include
+            android:id="@+id/include_error_message"
+            layout="@layout/layout_error_message"
+            android:visibility="invisible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
