@@ -91,17 +91,18 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // dagger.android package (optional)
-    ext.dagger2_version = '2.24'
+    ext.dagger2_version = '2.15'
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
 
-    //kapt 'com.google.dagger:dagger-android-processor:2.15'
+    kapt 'com.google.dagger:dagger-android-processor:2.15'
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
 
     //junit test case
     testImplementation "org.powermock:powermock-module-junit4:1.6.4"
-    implementation 'org.powermock:powermock-api-mockito2:2.0.0'
-    testImplementation 'junit:junit:4.12'
+    implementation 'org.powermock:powermock-api-mockito2:1.6.5'
+    //testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:3.8.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
