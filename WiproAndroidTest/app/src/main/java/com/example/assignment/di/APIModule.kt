@@ -19,8 +19,8 @@ class APIModule constructor(baseURL:String) {
 @Provides
  fun provideOKHttpClient():OkHttpClient{
      return  OkHttpClient.Builder()
-         .readTimeout(1200,TimeUnit.SECONDS)
-         .connectTimeout(1200,TimeUnit.SECONDS)
+         .readTimeout(15,TimeUnit.SECONDS)
+         .connectTimeout(15,TimeUnit.SECONDS)
          .build()
 
  }
