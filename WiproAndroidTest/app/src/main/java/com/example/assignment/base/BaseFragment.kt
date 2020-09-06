@@ -15,7 +15,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.get
 
 /**
  * This Fragment is abstract . This will be extended by all Fragments of app
@@ -42,7 +44,8 @@ abstract class BaseFragment<V : ViewModel, D : ViewDataBinding> :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        mViewDataModel = ViewModelProviders.of(this).get(viewModelClass!!)
+        mViewDataModel=ViewModelProvider(this).get(viewModelClass!!)
+       //mViewDataModel = ViewModelProviders.of(this).get(viewModelClass!!)
         mDataBinding.setVariable(bindingVariable, mViewDataModel)
         mDataBinding.lifecycleOwner = viewLifecycleOwner
         mDataBinding.executePendingBindings()

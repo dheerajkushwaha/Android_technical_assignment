@@ -1,8 +1,9 @@
 package com.example.kotlinle
 
 import com.example.assignment.repository.api.CloudAPI
-import kotlinx.coroutines.flow.flow
+import com.example.assignment.repository.model.FeedData
 import retrofit2.Retrofit
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 /*
@@ -19,20 +20,12 @@ class CloudManager @Inject constructor() {
     /**
      * method to retrive Feed data from server and return response to viewmodel
      */
-    fun fatchFeeds() = flow {
-        emit(getFeedsFromAPI())
+    suspend fun fatchFeeds():FeedData? {
+        var cloudResponse=mRetrofit.create(CloudAPI::class.java).fetchFeeds()
+        if (cloudResponse.isSuccessful){
+            return cloudResponse.body()
+        }else{
+            return null
+        }
     }
-
-    /**
-     * method to retrive Feed data from server and return response to viewmodel
-     */
-    private suspend fun getFeedsFromAPI() =
-        mRetrofit.create(CloudAPI::class.java).fetchFeeds()
-            .run {
-                if(isSuccessful && body()!=null){
-                    body()
-                }else{
-                    null
-                }
-            }
 }

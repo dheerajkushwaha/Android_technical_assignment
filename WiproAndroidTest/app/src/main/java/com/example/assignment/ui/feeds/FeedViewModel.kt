@@ -13,14 +13,14 @@ import com.example.assignment.repository.model.FeedData
 import com.example.assignment.repository.model.Row
 import com.example.assignment.utils.AppURL
 import com.example.assignment.utils.NetworkUtils
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 /**
-*   FeedViewModel class is responsible to provide feed data to view
-*
-*/
+ *   FeedViewModel class is responsible to provide feed data to view
+ *
+ */
 class FeedViewModel (application: Application) : AndroidViewModel(application){
 
     @Inject
@@ -50,33 +50,35 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
     /**
      * method to fetch feed from server
      */
-   private fun fetchFeedsFromCloud(){
+    fun fetchFeedsFromCloud(){
         if(NetworkUtils.isNetworkConnected(getApplication())){
             isLoading.set(true)
             viewModelScope.launch {
-                mCloudManager.fatchFeeds().collect() {
-                    if (it==null){
+                try {
+                    var cloudResponse=mCloudManager.fatchFeeds()
+                    if (cloudResponse==null){
                         mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(
-                            R.string.api_issue_text
-                        ))
-                    }else if (it.toString().isEmpty()){
-                        mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(
-                            R.string.api_empty_text
+                            R.string.api_issue_text))
+
+                    }else if (cloudResponse.toString().isEmpty()){
+                        mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(R.string.api_empty_text
                         ))
                     }else{
-                        mFeedCloudData.postValue(it)
+                        mFeedCloudData.postValue(cloudResponse)
                     }
                     isLoading.set(false)
+                }catch (socketexception: SocketTimeoutException){
+                    mUpdateServerstatus.postValue(socketexception.message)
+                }catch (exception:Exception){
+                    mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(
+                        R.string.api_issue_text))
                 }
             }
         }else{
             Log.i(">>>>>>>>",AppURL.NETWORK_STATUS_MSG)
             isLoading.set(false)
-            mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(
-                R.string.no_network_text
-            ))
+            mUpdateServerstatus.postValue(getApplication<Application>().resources.getString(R.string.no_network_text))
         }
-
     }
 
     fun getServerStatus():MutableLiveData<String>{
@@ -113,8 +115,6 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
         mCustomRecyclerAdapter.setFeedList(rowsItem!!)
         mCustomRecyclerAdapter.notifyDataSetChanged()
     }
-
-
     //* onRefresh() - Needs to be public for Databinding! */
     fun onRefresh() {
         fetchFeedsFromCloud()

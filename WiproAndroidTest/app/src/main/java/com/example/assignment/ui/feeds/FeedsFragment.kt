@@ -2,12 +2,13 @@ package com.example.assignment.ui.feeds
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.assignment.BR
 import com.example.assignment.R
 import com.example.assignment.base.BaseFragment
 import com.example.assignment.databinding.DashboardFramgentBinding
@@ -20,14 +21,13 @@ import com.example.assignment.repository.model.FeedData
  */
 class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
     private lateinit var mRecyclerView: RecyclerView
-    private var mErrorViewModel: ErrorViewModel? = null
+    lateinit var mErrorViewModel: ErrorViewModel
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mErrorViewModel = ViewModelProviders.of(requireActivity()).get(
-            ErrorViewModel::class.java
-        )
+        mErrorViewModel = ViewModelProviders.of(requireActivity()).get(ErrorViewModel::class.java)
+
     }
 
     override fun initListeners() {
@@ -38,7 +38,7 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
      */
     override fun initObservers() {
 
-        mErrorViewModel!!.closeButtonClick.observe(this, Observer { isClicked:Boolean->errorCloseClicked(isClicked) })
+        mErrorViewModel.getCloseButtonClick()?.observe(this, Observer { isClicked:Boolean->errorCloseClicked(isClicked) })
         mViewDataModel.getServerStatus().observe(this, Observer { message:String->getServerStatus(message) })
         mViewDataModel.getFeedData().observe(this, Observer { feedsData: FeedData ->getFeedsData(feedsData) })
     }
@@ -98,9 +98,6 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
      * clear all references
      */
     override fun clearAllReferences() {
-
-        mErrorViewModel=null
-
     }
 
 }
