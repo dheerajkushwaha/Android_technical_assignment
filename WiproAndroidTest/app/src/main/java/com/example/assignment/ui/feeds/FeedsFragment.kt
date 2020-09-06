@@ -14,6 +14,7 @@ import com.example.assignment.base.BaseFragment
 import com.example.assignment.databinding.DashboardFramgentBinding
 import com.example.assignment.errors.ErrorViewModel
 import com.example.assignment.repository.model.FeedData
+import com.example.assignment.utils.AppURL
 
 /**
  *   FeedsFragment class is responsible to receive feed data to viewmodel
@@ -46,7 +47,7 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
      * method to dismiss error dialog after refresh
      */
     private fun getErorrUpdate(remove: String) {
-        if(remove.equals("refresh")){
+        if(remove.equals(AppURL.INFO_CLOSE)){
             mErrorViewModel.setClicked()
             errorCloseClicked(true)
         }

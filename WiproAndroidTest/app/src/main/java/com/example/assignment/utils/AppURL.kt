@@ -7,5 +7,6 @@ interface AppURL {
         const val FAIL_MSG = "fail";
         const val  EMPTY_MSG = "empty_msg";
         const val NETWORK_STATUS_MSG = "networtstatus";
+        const val INFO_CLOSE = "infoclose";
     }
 }

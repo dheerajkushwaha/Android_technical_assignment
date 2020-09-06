@@ -84,16 +84,7 @@ class FeedViewModelTest {
     @Test
     fun testFetchFeedsFromCloud(){
 
-        val connectivityManager = Mockito.mock(
-            ConnectivityManager::class.java
-        )
-        val networkInfo = Mockito.mock(NetworkInfo::class.java)
-
-        Mockito.`when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
-            .thenReturn(connectivityManager)
-        Mockito.`when`(connectivityManager.activeNetworkInfo)
-            .thenReturn(networkInfo)
-        Mockito.`when`(networkInfo.isConnected).thenReturn(true)
+        checkInternetConnectivity()
 
         testCoroutineRule.runBlockingTest {
             `when`(mCloudManager.fatchFeeds()).thenReturn(FeedData(arrayListOf(),"title"))
@@ -124,8 +115,8 @@ class FeedViewModelTest {
         assertEquals(dummyNullResponse,getPrivateFieldValue<MutableLiveData<String>>(mFeedViewModel,"mUpdateServerstatus").value)
 
     }
-    @Test
-    fun testFetchFeedsFromCloud_cloudResponseNull() {
+
+    private fun checkInternetConnectivity(){
 
         val connectivityManager = Mockito.mock(
             ConnectivityManager::class.java
@@ -137,6 +128,13 @@ class FeedViewModelTest {
         Mockito.`when`(connectivityManager.activeNetworkInfo)
             .thenReturn(networkInfo)
         Mockito.`when`(networkInfo.isConnected).thenReturn(true)
+
+
+    }
+    @Test
+    fun testFetchFeedsFromCloud_cloudResponseNull() {
+
+        checkInternetConnectivity()
 
         val dummyNullResponse = "cloudResponseNull"
         `when`(resources.getString(anyInt())).thenReturn(dummyNullResponse)

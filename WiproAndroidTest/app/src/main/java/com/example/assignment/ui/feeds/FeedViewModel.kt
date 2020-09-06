@@ -52,7 +52,7 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
      * method to fetch feed from server
      */
     fun fetchFeedsFromCloud(){
-        mErrorDialog.postValue("refresh")
+        mErrorDialog.postValue(AppURL.INFO_CLOSE)
         if(NetworkUtils.isNetworkConnected(getApplication())){
             isLoading.set(true)
 
