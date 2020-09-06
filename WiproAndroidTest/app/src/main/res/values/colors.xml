@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#ffffff</color>
     <color name="red">#F44336</color>
+    <color name="navi_blue_border">#5f698d</color>
 
 
 </resources>

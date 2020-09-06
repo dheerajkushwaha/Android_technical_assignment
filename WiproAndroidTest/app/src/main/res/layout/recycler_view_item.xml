@@ -32,9 +32,9 @@
             android:layout_marginStart="@dimen/dimen_8dp"
             android:layout_marginTop="@dimen/dimen_8dp"
             android:text="@{dashboardViewModelCell.getFeedRows(position).title}"
-            android:textColor="?android:attr/colorForeground"
             android:textSize="@dimen/dimen_16sp"
             android:textStyle="bold"
+            android:textColor="@color/navi_blue_border"
             app:layout_constraintEnd_toEndOf="@+id/appOS_imageVw"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +58,7 @@
             android:layout_marginStart="@dimen/dimen_8dp"
             android:layout_marginTop="@dimen/dimen_8dp"
             android:layout_marginEnd="@dimen/dimen_8dp"
+
             android:text="@{dashboardViewModelCell.getFeedRows(position).description}"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/appOS_imageVw"

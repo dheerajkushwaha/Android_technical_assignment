@@ -19,8 +19,11 @@ class ErrorViewModel(@NonNull application: Application?) :
             mCloseButtonClick!!.value = true
         }
     }
+    fun setClicked(){
 
+        mCloseButtonClick!!.value = true
 
+    }
     fun getCloseButtonClick(): MutableLiveData<Boolean>? {
         return mCloseButtonClick
     }

@@ -29,6 +29,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
@@ -74,6 +75,7 @@ class FeedViewModelTest {
         mCloudManager= mock(CloudManager::class.java)
         mFeedViewModel = FeedViewModel((context))
         Dispatchers.setMain(Dispatchers.Unconfined)
+        `when`(context.resources).thenReturn(resources)
 
         mFeedViewModel.mCloudManager = mCloudManager
     }
@@ -100,6 +102,51 @@ class FeedViewModelTest {
         }
     }
 
+    @Test
+    fun testFetchFeedsFromCloud_withoutInternet(){
+
+        val connectivityManager = Mockito.mock(
+            ConnectivityManager::class.java
+        )
+        val networkInfo = Mockito.mock(NetworkInfo::class.java)
+
+        Mockito.`when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
+            .thenReturn(connectivityManager)
+        Mockito.`when`(connectivityManager.activeNetworkInfo)
+            .thenReturn(networkInfo)
+        Mockito.`when`(networkInfo.isConnected).thenReturn(false)
+
+        val dummyNullResponse = "cloudResponseNull"
+        `when`(resources.getString(anyInt())).thenReturn(dummyNullResponse)
+
+        mFeedViewModel.fetchFeedsFromCloud()
+
+        assertEquals(dummyNullResponse,getPrivateFieldValue<MutableLiveData<String>>(mFeedViewModel,"mUpdateServerstatus").value)
+
+    }
+    @Test
+    fun testFetchFeedsFromCloud_cloudResponseNull() {
+
+        val connectivityManager = Mockito.mock(
+            ConnectivityManager::class.java
+        )
+        val networkInfo = Mockito.mock(NetworkInfo::class.java)
+
+        Mockito.`when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
+            .thenReturn(connectivityManager)
+        Mockito.`when`(connectivityManager.activeNetworkInfo)
+            .thenReturn(networkInfo)
+        Mockito.`when`(networkInfo.isConnected).thenReturn(true)
+
+        val dummyNullResponse = "cloudResponseNull"
+        `when`(resources.getString(anyInt())).thenReturn(dummyNullResponse)
+
+        testCoroutineRule.runBlockingTest {
+            `when`(mCloudManager.fatchFeeds()).thenReturn(null)
+            mFeedViewModel.fetchFeedsFromCloud()
+            assertEquals(dummyNullResponse,getPrivateFieldValue<MutableLiveData<String>>(mFeedViewModel,"mUpdateServerstatus").value)
+        }
+    }
     @Test
     fun testGetServerStatus() {
 
@@ -136,6 +183,7 @@ class FeedViewModelTest {
     fun testGetDashboardAdapter() {
         assertEquals(mFeedViewModel, mFeedViewModel.getDashboardAdapter().mViewDataModel)
     }
+
 
     @Test
     fun testSetDashboardAdapter() {

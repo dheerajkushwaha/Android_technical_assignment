@@ -33,6 +33,7 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
     private val mFeedCloudData=MutableLiveData<FeedData>()
     private val mUpdateServerstatus=MutableLiveData<String>()
     lateinit var mCustomRecyclerAdapter: FeedRecyclerAdapter
+    private var mErrorDialog= MutableLiveData<String>()
     val isLoading = ObservableBoolean()
 
     /**
@@ -51,8 +52,10 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
      * method to fetch feed from server
      */
     fun fetchFeedsFromCloud(){
+        mErrorDialog.postValue("refresh")
         if(NetworkUtils.isNetworkConnected(getApplication())){
             isLoading.set(true)
+
             viewModelScope.launch {
                 try {
                     var cloudResponse=mCloudManager.fatchFeeds()
@@ -117,7 +120,11 @@ class FeedViewModel (application: Application) : AndroidViewModel(application){
     }
     //* onRefresh() - Needs to be public for Databinding! */
     fun onRefresh() {
+      //  mErrorDialog?.postValue("refresh")
         fetchFeedsFromCloud()
+    }
+    fun updateErrorAlert(): MutableLiveData<String> {
+        return mErrorDialog
     }
 
 }

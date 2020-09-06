@@ -27,9 +27,7 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mErrorViewModel = ViewModelProviders.of(requireActivity()).get(ErrorViewModel::class.java)
-
     }
-
     override fun initListeners() {
 
     }
@@ -41,6 +39,17 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
         mErrorViewModel.getCloseButtonClick()?.observe(this, Observer { isClicked:Boolean->errorCloseClicked(isClicked) })
         mViewDataModel.getServerStatus().observe(this, Observer { message:String->getServerStatus(message) })
         mViewDataModel.getFeedData().observe(this, Observer { feedsData: FeedData ->getFeedsData(feedsData) })
+        mViewDataModel.updateErrorAlert().observe(this, Observer { isRemove: String ->getErorrUpdate(isRemove) })
+    }
+
+    /**
+     * method to dismiss error dialog after refresh
+     */
+    private fun getErorrUpdate(remove: String) {
+        if(remove.equals("refresh")){
+            mErrorViewModel.setClicked()
+            errorCloseClicked(true)
+        }
     }
 
     /**
@@ -50,7 +59,7 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
      */
     fun errorCloseClicked(isClicked: Boolean) {
         if (isClicked) {
-            mDataBinding.includeErrorMessage.rlErrorMessage.setVisibility(View.INVISIBLE)
+            mDataBinding.includeErrorMessage.rlErrorMessage.setVisibility(View.GONE)
         }
     }
 
