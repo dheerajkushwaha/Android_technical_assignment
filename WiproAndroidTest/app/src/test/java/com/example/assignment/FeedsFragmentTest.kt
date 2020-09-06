@@ -61,7 +61,7 @@ class FeedsFragmentTest {
     @Test
     fun testErrorCloseClicked(){
         mFeedsFragment?.errorCloseClicked(true)
-        assertEquals(mFeedsFragment!!.getDataBinding().includeErrorMessage.rlErrorMessage.visibility,View.INVISIBLE)
+        assertEquals(mFeedsFragment!!.getDataBinding().includeErrorMessage.rlErrorMessage.visibility,View.GONE)
     }
 
     @After
