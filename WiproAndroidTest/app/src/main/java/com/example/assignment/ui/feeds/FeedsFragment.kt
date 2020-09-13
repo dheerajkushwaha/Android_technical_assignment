@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -27,7 +26,7 @@ class FeedsFragment : BaseFragment<FeedViewModel, DashboardFramgentBinding>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mErrorViewModel = ViewModelProviders.of(requireActivity()).get(ErrorViewModel::class.java)
+        mErrorViewModel=ViewModelProvider(requireActivity()).get(ErrorViewModel::class.java)
     }
     override fun initListeners() {
 
